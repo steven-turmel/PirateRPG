@@ -1,0 +1,12 @@
+Federation Blue = 65, 105, 225
+Federation White = 0, 0, 0
+Kingdom Red= 170, 10, 10
+Kingdom Silver = 192, 192, 192
+Confederation Green = 65, 105, 10
+Confederation Gold = 212, 175, 55
+Empire Yellow = 200, 100, 0
+Empire Violet = 110, 0, 130
+
+Pirates (White and Black) = 0, 0 , 0 + 255, 255, 255
+
+Flag Size = 1024 x 607
