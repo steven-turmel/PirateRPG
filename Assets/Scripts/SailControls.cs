@@ -4,10 +4,13 @@ using UnityEngine;
 
 internal sealed class SailControls : MonoBehaviour
 {
+    private static float turnBonus { get; set; }
+    private float anchorDrag { get; set; }
+    private bool anchorDropped { get; set; }
+    public float movementSpeed;
     private Rigidbody2D rb2d;
-    public float torque = 0.15f;
-    public float speed;
-    SpriteRenderer sr;
+    public float torque;
+    private const float speedConst = 10f;
 
     private void FixedUpdate()
     {
@@ -21,22 +24,39 @@ internal sealed class SailControls : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb2d.AddRelativeForce(-transform.up, ForceMode2D.Force);
+            if (anchorDropped)
+            {
+                RaiseAnchor();
+            }
+            //transform.position += -transform.up * Input.GetAxis("Vertical") * Time.deltaTime * movementSpeed;
+            rb2d.AddRelativeForce(-Vector2.up * movementSpeed * Time.deltaTime * speedConst);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Space) && !anchorDropped)
         {
-            rb2d.AddRelativeForce(transform.up, ForceMode2D.Force);
+            DropAnchor();
         }
-        if (rb2d.angularVelocity > 0.10)
-        {
-            sr.sprite = 
-        }
+        
     }
 
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+        //sr = GetComponent<SpriteRenderer>();
+        anchorDrag = 5;
+        torque = 0.25f;
+        movementSpeed = 100.0f;
+    }
+
+    private void DropAnchor()
+    {
+        anchorDropped = true;
+        rb2d.drag += anchorDrag;
+    }
+
+    private void RaiseAnchor()
+    {
+        anchorDropped = false;
+        rb2d.drag -= anchorDrag;
     }
 
     
